@@ -90,6 +90,15 @@ function act_hoshiko_ollie(m)
 		m.forwardVel = math.sqrt(MOVEMENT.z^2 + MOVEMENT.x^2)
 	end
 	
+	if m.wall then
+	  local wallace = atan2s(m.wall.normal.z, m.wall.normal.x)
+	  
+		m.vel.y = m.vel.y/2 + math.abs(coss(angle_diff(wallace, m.faceAngle.y)))*m.forwardVel
+	  m.forwardVel = math.abs(coss(angle_diff(wallace, m.faceAngle.y)))*m.forwardVel
+	
+	  set_mario_action(m, ACT_HOSHIKO_WALL, 0)
+	end
+	
 	if CONTROL_MAG > 0 then
 	  m.vel.x = lerp(m.vel.x, sins(m.intendedYaw)*m.forwardVel, .05)
 		m.vel.z = lerp(m.vel.z, coss(m.intendedYaw)*m.forwardVel, .05)
@@ -121,6 +130,56 @@ function act_hoshiko_drift(m)
 
 hook_mario_action(ACT_HOSHIKO_DRIFT, act_hoshiko_drift)
 
+
+_G.ACT_HOSHIKO_WALL = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR)
+
+function act_hoshiko_wall(m)
+  local step = perform_air_step(m, 0)
+	local wallace = m.faceAngle.y + 0x8000
+	
+	if step == AIR_STEP_LANDED then
+	  m.faceAngle.y = m.faceAngle.y + 0x8000
+	  set_mario_action(m, ACT_HOSHIKO_SKATE, 0)
+	end
+	
+	if m.wall then
+	  wallace = atan2s(m.wall.normal.z, m.wall.normal.x)
+		m.particleFlags = m.particleFlags | PARTICLE_DUST
+	end
+	local velAngle = atan2s(m.vel.z, m.vel.x)
+	
+	set_mario_animation(m, CHAR_ANIM_JUMP_RIDING_SHELL)
+	
+	-- idk at one point i started just changing values around until i made a bit of progress
+	m.faceAngle.y = approach_s16_asymptotic(m.faceAngle.y, wallace + 0x8000, 4)
+  m.faceAngle.x = approach_s16_asymptotic(m.faceAngle.x, 0x4000, 4)
+	m.faceAngle.z = approach_s16_asymptotic(m.faceAngle.z, -atan2s(m.vel.y, m.forwardVel * math.clamp(angle_diff(velAngle, wallace + 0x8000), -1, 1) ), 4)
+	
+	m.marioObj.header.gfx.angle.y = m.faceAngle.y - 0x4000
+	m.marioObj.header.gfx.angle.z = m.faceAngle.x
+	m.marioObj.header.gfx.angle.x = m.faceAngle.z - m.faceAngle.y + (wallace + 0x4000)
+	
+	m.vel.x = MOVEMENT.x + sins(m.faceAngle.y)*1
+	m.vel.z = MOVEMENT.z + coss(m.faceAngle.y)*1
+	
+	m.forwardVel = math.sqrt(m.vel.x^2 + m.vel.z^2)
+	
+	if m.controller.buttonPressed & A_BUTTON ~= 0 then
+	  m.faceAngle.y = wallace
+		m.faceAngle.x = 0x8000
+		set_mario_action(m, ACT_HOSHIKO_OLLIE, 0)
+		m.pos.x = m.pos.x + sins(m.faceAngle.y)*50
+		m.pos.z = m.pos.z + coss(m.faceAngle.y)*50
+		m.faceAngle.y = wallace
+		mario_set_forward_vel(m, math.max(math.sqrt(m.vel.y^2 + m.forwardVel^2), HOSHI_JUMP_VEL))
+		m.vel.y = 15
+	end
+	
+end
+
+hook_mario_action(ACT_HOSHIKO_WALL, {every_frame = act_hoshiko_wall, gravity = hoshiko_gravity})
+
+
 function update_variables()
   m = gMarioStates[0]
 	
@@ -140,8 +199,10 @@ function update_variables()
 	MOVEMENT_HORIZONTAL = math.sqrt(MOVEMENT.x^2 + MOVEMENT.z^2)
 	MOVEMENT_3D = math.sqrt(MOVEMENT.x^2 + MOVEMENT.y^2 + MOVEMENT.z^2)
 	
-	PREV_STEEPNESS = m.floor.normal.y
-
+	if m.floor then
+	  PREV_STEEPNESS = m.floor.normal.y
+  end
+	
 end
 
 
