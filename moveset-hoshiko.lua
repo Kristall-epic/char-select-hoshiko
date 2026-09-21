@@ -183,6 +183,8 @@ hook_mario_action(ACT_HOSHIKO_WALL, {every_frame = act_hoshiko_wall, gravity = h
 function update_variables()
   m = gMarioStates[0]
 	
+	interact_w_door(m)
+	
 	MOVEMENT = {
     x = m.pos.x - PREV_POS.x,
     y = m.pos.y - PREV_POS.y,
@@ -207,7 +209,7 @@ end
 
 
 function hoshiko_before_act(m, nextAct)
-  if nextAct == ACT_WALKING then
+  if nextAct == ACT_WALKING and m.action ~= ACT_PULLING_DOOR and m.action ~= ACT_PUSHING_DOOR then
 	  return ACT_HOSHIKO_SKATE
 	end
 end
