@@ -1,0 +1,26 @@
+E_MODEL_HOSHIKO = smlua_model_util_get_id("hoshiko_geo")
+
+HOSHI_TOP_VEL = 55
+HOSHI_ACCEL = .05
+HOSHI_JUMP_VEL = 40
+HOSHI_GROUND_DECEL = .35
+HOSHI_BRAKE_DECEL = 2
+HOSHIKO_TERMINAL_VEL = -500
+HOSHIKO_GRAVITY = 2.5
+
+MOVEMENT = {
+  x = 0,
+	y = 0,
+	z = 0
+}
+
+MOVEMENT_HORIZONTAL = 0
+MOVEMENT_3D = 0
+
+PREV_POS = {
+  x = 0,
+	y = 0,
+	z = 0
+}
+
+CONTROL_MAG = 0
