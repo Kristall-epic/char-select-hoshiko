@@ -5,12 +5,12 @@ function on_char_select_load()
   
 CT_HOSHI = charSelect.character_add(
         "Hoshiko",
-        {'OW THE SUN'},
+        {'Skateboard'},
         "Kristall",
-        "aa0000", 
+        "916cca", 
         E_MODEL_HOSHIKO,
-        CT_MARIO, 
-        nil,
+        CT_LUIGI, 
+        HOSHIKO_ICON,
         1.5
     )
     
@@ -24,8 +24,11 @@ CT_HOSHI = charSelect.character_add(
   	[CAP] = "390e52", 
   	[EMBLEM] = "916cca"
   }
-    charSelect.character_add_palette_preset(E_MODEL_HOSHIKO, PALETTE_HOSHIKO, "Purpl")
-		
+	
+  charSelect.character_add_palette_preset(E_MODEL_HOSHIKO, PALETTE_HOSHIKO, "Purpl")
+	
+	charSelect.character_add_graffiti(CT_HOSHI, HOSHIKO_GRAFFITI)
+	
   moveset_hoshiko()
     
 end

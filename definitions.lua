@@ -1,5 +1,7 @@
 E_MODEL_HOSHIKO = smlua_model_util_get_id("hoshiko_geo")
 hoshikoUI = get_texture_info("hoshiko-atlas")
+HOSHIKO_ICON = get_texture_info("life-icon")
+HOSHIKO_GRAFFITI = get_texture_info("hoshiko-graffiti")
 
 HOSHI_TOP_VEL = 55
 HOSHI_ACCEL = .05

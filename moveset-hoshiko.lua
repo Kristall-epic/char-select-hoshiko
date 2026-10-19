@@ -352,26 +352,33 @@ function hoshiko_hud()
 	
 	xOffset = djuiwidth - 100
 
-  local intendedAngle = degrees_to_sm64((270*(MOVEMENT_3D/150)) - 55)
+  local intendedAngle = degrees_to_sm64((270*(math.clamp(MOVEMENT_3D/250, 0, .9))) - 55)
   
   velAngle = lerp(velAngle, intendedAngle, 0.1)
 
   djui_hud_render_texture_tile(hoshikoUI, xOffset + 8, djuiheight-92, 0.65, 0.65, 256, 0, 128, 128)
   djui_hud_set_rotation(velAngle, 0, 0.5)
+	
+	djui_hud_set_color(0, 0, 0, 255)
+  djui_hud_render_rect(xOffset + 40, djuiheight - 50, 33, 3)
+	
   djui_hud_set_color(150, 118, 200, 255)
   djui_hud_render_rect(xOffset + 40, djuiheight - 50, 32, 2)
+	
   djui_hud_set_color(255, 255, 255, 255)
   djui_hud_set_font(FONT_ALIASED)
 	djui_hud_set_rotation(0, 0, 0)
  djui_hud_print_text(tostring(math.round(kmperhour)), xOffset + 32, djuiheight - 70, 0.3)
   
-	local intendedAccelAngle = degrees_to_sm64(90) + degrees_to_sm64(-90)*math.clamp(hoshikoSlopeAccel, -1.5, 1.5)
+	local intendedAccelAngle = degrees_to_sm64(90) + degrees_to_sm64(-90)*math.clamp(hoshikoSlopeAccel/2, -1, 1)
 	
 	accelAngle = lerp(accelAngle, intendedAccelAngle, 0.2)
 	
 	djui_hud_set_rotation(accelAngle, 0, 0.5)
+	djui_hud_set_color(0, 0, 0, 255)
+  djui_hud_render_rect(xOffset + 81, djuiheight - 12, 11.5, 2)
   djui_hud_set_color(150, 118, 200, 255)
-  djui_hud_render_rect(xOffset + 84, djuiheight - 10, 16, 2)
+  djui_hud_render_rect(xOffset + 81, djuiheight - 12, 10, 1.25)
   djui_hud_set_rotation(0, 0, 0)
 	
 end
