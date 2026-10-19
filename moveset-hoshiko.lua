@@ -328,6 +328,9 @@ function update_variables()
 				hoshikoSlopeAccel = 1
 			end
 			play_sound(SOUND_AIR_BOWSER_SPIT_FIRE, m.marioObj.header.gfx.cameraToObject)
+			spawn_non_sync_object(id_bhvSmoke, E_MODEL_RED_FLAME, m.pos.x + sins(m.faceAngle.y + 0x4000)*80, m.pos.y + 15, m.pos.z + coss(m.faceAngle.y + 0x4000)*80, function(o) obj_set_gfx_scale(o, 3, 3, 3) o.oAnimState = math.random(0, 7) end)
+			spawn_non_sync_object(id_bhvSmoke, E_MODEL_RED_FLAME, m.pos.x + sins(m.faceAngle.y - 0x4000)*80, m.pos.y + 15, m.pos.z + coss(m.faceAngle.y - 0x4000)*80, function(o) obj_set_gfx_scale(o, 3, 3, 3) o.oAnimState = math.random(0, 7) end)
+			
 		end
 	end
 	
