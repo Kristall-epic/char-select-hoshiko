@@ -29,6 +29,8 @@ CT_HOSHI = charSelect.character_add(
 	
 	charSelect.character_add_graffiti(CT_HOSHI, HOSHIKO_GRAFFITI)
 	
+	charSelect.character_add_menu_instrumental(CT_HOSHI, HOSHIKO_THEME)
+	
   moveset_hoshiko()
     
 end

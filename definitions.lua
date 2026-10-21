@@ -3,6 +3,8 @@ hoshikoUI = get_texture_info("hoshiko-atlas")
 HOSHIKO_ICON = get_texture_info("life-icon")
 HOSHIKO_GRAFFITI = get_texture_info("hoshiko-graffiti")
 
+HOSHIKO_THEME = audio_stream_load("star.ogg")
+
 HOSHI_TOP_VEL = 55
 HOSHI_ACCEL = .05
 HOSHI_JUMP_VEL = 40
